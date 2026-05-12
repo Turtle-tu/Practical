@@ -1,1 +1,483 @@
-<!DOCTYPE html><html><head><title>Практика</title></head><body><h1>Проектная практика</h1></body></html>
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Проектная практика — портфолио</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background: #0a0a0a;
+            color: #ededed;
+            line-height: 1.5;
+        }
+
+        header {
+            position: sticky;
+            top: 0;
+            background: rgba(10, 10, 10, 0.9);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 1rem 2rem;
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        nav {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+        }
+
+        nav ul {
+            display: flex;
+            justify-content: center;
+            list-style: none;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        nav a {
+            color: #ededed;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.9rem;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            transition: color 0.3s;
+            cursor: pointer;
+        }
+
+        nav a:hover {
+            color: #ff3366;
+        }
+
+        .telegram-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: #0088cc;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+            white-space: nowrap;
+        }
+
+        .telegram-btn:hover {
+            background: #006699;
+            transform: scale(1.02);
+        }
+
+        .telegram-icon {
+            width: 18px;
+            height: 18px;
+            fill: white;
+        }
+
+        .page {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            display: none;
+            animation: fadeIn 0.25s ease;
+        }
+
+        .page.active-page {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px);}
+            to { opacity: 1; transform: translateY(0);}
+        }
+
+        h1 {
+            font-size: 4rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #ffffff 0%, #ff3366 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 1rem;
+        }
+
+        h2 {
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 2rem;
+            letter-spacing: -0.5px;
+            border-left: 4px solid #ff3366;
+            padding-left: 1rem;
+        }
+
+        h3 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: #ff3366;
+        }
+
+        .stages {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            margin-top: 1rem;
+        }
+
+        .stage-card {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 24px;
+            padding: 2rem;
+            flex: 1;
+            min-width: 280px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s;
+        }
+
+        .stage-card:hover {
+            border-color: #ff3366;
+            transform: translateY(-5px);
+        }
+
+        .stage-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #ff3366;
+            margin-bottom: 1rem;
+        }
+
+        .variant-section {
+            margin-top: 3rem;
+        }
+
+        .integration-badge {
+            background: rgba(255, 51, 102, 0.15);
+            border: 1px solid #ff3366;
+            border-radius: 30px;
+            padding: 0.5rem 1rem;
+            display: inline-block;
+            margin-top: 0.5rem;
+            font-size: 0.8rem;
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            margin-top: 3rem;
+            font-size: 0.8rem;
+            color: #666;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 24px;
+            padding: 2rem;
+            margin: 1rem 0;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .members-grid {
+            display: flex;
+            gap: 2rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .member-card {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 24px;
+            padding: 2rem;
+            flex: 1;
+            min-width: 280px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: transform 0.3s;
+        }
+
+        .member-card:hover {
+            transform: translateY(-5px);
+            border-color: #ff3366;
+        }
+
+        .avatar-initials {
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(135deg, #ff3366, #ff6680);
+            border-radius: 50%;
+            margin: 0 auto 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .group {
+            color: #ff3366;
+            font-weight: bold;
+            margin: 0.5rem 0;
+        }
+
+        .contribution {
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: left;
+            color: #aaa;
+        }
+
+        .post {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 24px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-left: 4px solid #ff3366;
+        }
+
+        .post .date {
+            color: #666;
+            font-size: 0.8rem;
+            margin-bottom: 1rem;
+        }
+
+        .post-img {
+            width: 100%;
+            border-radius: 16px;
+            margin-top: 1rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .screen-mock {
+            background: #1e1e2f;
+            border-radius: 16px;
+            padding: 1rem;
+            margin: 1rem 0;
+            display: inline-block;
+            border: 1px solid rgba(255,255,255,0.2);
+            font-family: monospace;
+            font-size: 0.9rem;
+            color: #88ffaa;
+            text-align: center;
+            width: 100%;
+            max-width: 360px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        }
+
+        .images-row {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin: 1rem 0;
+        }
+
+        .images-row .post-img {
+            width: calc(50% - 0.5rem);
+        }
+
+        .resources-list {
+            list-style: none;
+        }
+
+        .resources-list li {
+            margin-bottom: 1rem;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 12px;
+            transition: all 0.3s;
+        }
+        .resources-list li:hover {
+            background: rgba(255,255,255,0.08);
+            transform: translateX(5px);
+        }
+        .resources-list a {
+            color: #ff3366;
+            text-decoration: none;
+            font-size: 1.1rem;
+        }
+        .resources-list a:hover {
+            text-decoration: underline;
+        }
+        .bot-link {
+            background: rgba(0, 136, 204, 0.15);
+            border-left: 3px solid #0088cc;
+        }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 2.5rem; }
+            h2 { font-size: 1.5rem; }
+            header { flex-direction: column; gap: 1rem; }
+            nav ul { gap: 1rem; }
+            nav a { font-size: 0.7rem; }
+            .images-row .post-img { width: 100%; }
+        }
+    </style>
+</head>
+<body>
+<header>
+    <nav>
+        <ul>
+            <li><a data-page="index">Главная</a></li>
+            <li><a data-page="about">О проекте</a></li>
+            <li><a data-page="members">Участники</a></li>
+            <li><a data-page="journal">Журнал</a></li>
+            <li><a data-page="resources">Ресурсы</a></li>
+        </ul>
+    </nav>
+    <a href="https://t.me/iv_horoscope_bot" class="telegram-btn" target="_blank">
+        <svg class="telegram-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.6-1.38-.97-2.23-1.56-.99-.69-.35-1.07.22-1.69.15-.15 2.77-2.54 2.82-2.76.01-.03.02-.14-.05-.2-.07-.06-.18-.04-.26-.02-.11.02-1.86 1.18-5.25 3.47-.5.34-.95.51-1.36.5-.45-.01-1.31-.25-1.95-.46-.78-.25-1.4-.38-1.35-.81.03-.22.33-.45.91-.68 3.57-1.55 5.95-2.58 7.14-3.09 3.4-1.45 4.11-1.7 4.57-1.71.1 0 .33.02.48.15.12.11.16.26.17.41-.01.05-.01.1-.02.16z"/>
+        </svg>
+        Telegram
+    </a>
+</header>
+
+<div id="page-index" class="page active-page">
+    <main>
+        <section>
+            <h1>Проектная<br>практика</h1>
+            <p style="font-size: 1.2rem; color: #aaa; max-width: 600px;">Разработка статического веб-сайта с использованием HTML/CSS. Учебная практика, 2026.</p>
+        </section>
+        <section>
+            <h2>Базовая часть — этапы работы</h2>
+            <div class="stages">
+                <div class="stage-card"><div class="stage-number">01</div><h3>Установка ПО</h3><p style="color:#aaa;">Установка Git, VS Code, Hugo (extended version). Настройка рабочей среды.</p></div>
+                <div class="stage-card"><div class="stage-number">02</div><h3>Создание репозитория</h3><p style="color:#aaa;">Регистрация на GitHub, создание публичного репозитория, настройка удалённого доступа.</p></div>
+                <div class="stage-card"><div class="stage-number">03</div><h3>Изучение Git</h3><p style="color:#aaa;">Освоение базовых команд: git init, add, commit, push, pull, branch, merge.</p></div>
+                <div class="stage-card"><div class="stage-number">04</div><h3>Структура проекта</h3><p style="color:#aaa;">Создание папок: docs, reports, site, src, task. Настройка .gitignore.</p></div>
+                <div class="stage-card"><div class="stage-number">05</div><h3>Разработка сайта</h3><p style="color:#aaa;">Вёрстка HTML-страниц, написание CSS, создание навигации, адаптивный дизайн.</p></div>
+                <div class="stage-card"><div class="stage-number">06</div><h3>Публикация</h3><p style="color:#aaa;">Настройка GitHub Pages, автоматическая сборка, проверка работоспособности.</p></div>
+            </div>
+        </section>
+        <section class="variant-section">
+            <h2>Вариативная часть — создание Telegram-бота на Python</h2>
+            <div class="stages">
+                <div class="stage-card"><div class="stage-number">01</div><h3>Получение токена</h3><p style="color:#aaa;">Регистрация бота через @BotFather, получение API-токена.</p></div>
+                <div class="stage-card"><div class="stage-number">02</div><h3>Настройка среды</h3><p style="color:#aaa;">Установка pyTelegramBotAPI, файл .env для безопасного хранения токена.</p></div>
+                <div class="stage-card"><div class="stage-number">03</div><h3>Создание базового бота</h3><p style="color:#aaa;">Инициализация TeleBot, обработчики команд /start и /hello.</p></div>
+                <div class="stage-card"><div class="stage-number">04</div><h3>Добавление функционала</h3><p style="color:#aaa;">Эхо-функция, добавление команды /horoscope.</p></div>
+                <div class="stage-card"><div class="stage-number">05</div><h3>Интеграция с API</h3><p style="color:#aaa;">Подключение к Horoscope API, гороскоп по знаку зодиака и дню.</p></div>
+                <div class="stage-card"><div class="stage-number">06</div><h3>Запуск и развёртывание</h3><p style="color:#aaa;">Тестирование, деплой на Render/Heroku для круглосуточной работы.</p></div>
+                <div class="stage-card"><div class="stage-number">07</div><h3>Интеграция с сайтом</h3><p style="color:#aaa;">Кнопка Telegram в правом верхнем углу. Пользователи могут перейти в бота и получить гороскоп.</p><div class="integration-badge">🔗 Кнопка Telegram → в правом верхнем углу</div></div>
+            </div>
+        </section>
+    </main>
+</div>
+
+<div id="page-about" class="page">
+    <main>
+        <h1>О проекте</h1>
+        <div class="card"><h2>Название проекта</h2><p>«Разработка и публикация статического веб-сайта для портфолио учебной практики»</p></div>
+        <div class="card"><h2>Цели и задачи</h2><ul><li>Изучить систему контроля версий Git</li><li>Освоить работу с платформой GitHub</li><li>Создать статический веб-сайт на HTML/CSS</li><li>Настроить автоматическую публикацию через GitHub Pages</li><li>Оформить проект в соответствии с требованиями</li><li>Создать Telegram-бота на Python в рамках вариативной части</li></ul></div>
+        <div class="card"><h2>Технологический стек</h2><ul><li>HTML5</li><li>CSS3</li><li>Git / GitHub</li><li>GitHub Pages</li><li>Python / pyTelegramBotAPI</li><li>Telegram Bot API</li></ul></div>
+        <div class="card"><h2>Результаты</h2><p>Разработан и опубликован статический сайт, отражающий ход выполнения практики. Создана структура репозитория с папками docs, reports, site, src, task. В рамках вариативной части создан Telegram-бот с интеграцией Horoscope API.</p></div>
+    </main>
+</div>
+
+<div id="page-members" class="page">
+    <main>
+        <h1>Участники</h1>
+        <div class="members-grid">
+            <div class="member-card"><div class="avatar-initials">ВГ</div><h3>Гильдеева Виктория Сергеевна</h3><div class="group">Группа: 251-333</div><div class="contribution"><strong>Личный вклад:</strong><p>Создание структуры репозитория, разработка HTML-страниц, стилизация CSS, настройка Git и GitHub Pages, подготовка документации.</p></div></div>
+            <div class="member-card"><div class="avatar-initials">ФИ</div><h3>Федоров Иван Сергеевич</h3><div class="group">Группа: 251-333</div><div class="contribution"><strong>Личный вклад:</strong><p>Написание текстов для сайта, поиск и оформление полезных ресурсов, создание контента для журнала прогресса, помощь в настройке GitHub Pages.</p></div></div>
+        </div>
+    </main>
+</div>
+
+<div id="page-journal" class="page">
+    <main>
+        <h1>Журнал прогресса</h1>
+        <div class="post">
+            <h3>📌 Пост 1: Начало работы</h3>
+            <div class="date">3 февраля 2026 г.</div>
+            <p>Установили Git и создали первый репозиторий на GitHub. Освоили базовые команды: git init, git add, git commit, git push. Создали структуру папок проекта согласно требованиям задания.</p>
+            <img src="https://1s4oyld5dc.ucarecd.net/ae476a3e-cd74-4de9-b155-2f84b90c9ce6/" alt="HTML код сайта" class="post-img">
+        </div>
+
+        <div class="post">
+            <h3>📌 Пост 2: Разработка сайта</h3>
+            <div class="date">15 марта 2026 г.</div>
+            <p>Создали HTML-страницы для сайта: главная, о проекте, участники, журнал, ресурсы. Написали CSS для стилизации. Сайт стал выглядеть современно и адаптивно под разные устройства.</p>
+            <div class="images-row">
+                <img src="https://1s4oyld5dc.ucarecd.net/a5321fb9-c0e5-4f8d-8e3e-5b9bd5d5a85f/" alt="HTML код сайта" class="post-img">
+                <img src="https://1s4oyld5dc.ucarecd.net/eb0544d5-0923-4924-b9c1-76a21e324464/" alt="CSS стили" class="post-img">
+            </div>
+        </div>
+
+        <div class="post">
+            <h3>📌 Пост 3: Публикация и сдача проекта</h3>
+            <div class="date">20 мая 2026 г.</div>
+            <p>Настроили GitHub Pages для автоматической публикации. Сайт доступен по публичной ссылке. Подготовили итоговую документацию и сдали проект на проверку.</p>
+            <img src="https://1s4oyld5dc.ucarecd.net/1dfed9a5-96c2-4460-827e-d248604c0ee0/" alt="Настройки GitHub Pages" class="post-img">
+        </div>
+    </main>
+</div>
+
+<div id="page-resources" class="page">
+    <main>
+        <h1>Полезные ресурсы</h1>
+        <ul class="resources-list">
+            <li class="bot-link">🤖 <a href="https://t.me/iv_horoscope_bot" target="_blank">Telegram-бот «Гороскоп» — @iv_horoscope_bot</a> (вариативная часть)</li>
+            <li>🔗 <a href="https://git-scm.com/doc" target="_blank">Официальная документация Git</a></li>
+            <li>🔗 <a href="https://docs.github.com/ru/repositories">Документация GitHub</a></li>
+            <li>🔗 <a href="https://proglib.io/p/git-for-half-an-hour" target="_blank">Руководство для начинающих Git Bash</a></li>
+            <li>🔗 <a href="https://gohugo.io/getting-started/quick-start/">Создание первого проекта Hugo</a></li>
+            <li>🔗 <a href="https://www.freecodecamp.org/news/how-to-create-a-telegram-bot-using-python/">Python: How To Create a Telegram Bot Using Python</a></li>
+            <li>🔗 <a href="https://docs.github.com/en/pages">GitHub Pages — документация</a></li>
+            <li>🔗 <a href="https://pypi.org/project/pyTelegramBotAPI/" target="_blank">pyTelegramBotAPI — библиотека для Python</a></li>
+            <li>🔗 <a href="https://www.markdownguide.org/basic-syntax/" target="_blank">Язык разметки Markdown</a></li>
+        </ul>
+    </main>
+</div>
+
+<footer>
+    <p>© 2026 — Проектная (учебная) практика</p>
+</footer>
+
+<script>
+    const pages = {
+        index: document.getElementById('page-index'),
+        about: document.getElementById('page-about'),
+        members: document.getElementById('page-members'),
+        journal: document.getElementById('page-journal'),
+        resources: document.getElementById('page-resources')
+    };
+
+    function showPage(pageId) {
+        Object.keys(pages).forEach(id => {
+            pages[id].classList.remove('active-page');
+        });
+        if (pages[pageId]) pages[pageId].classList.add('active-page');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    document.querySelectorAll('nav a[data-page]').forEach(link => {
+        link.addEventListener('click', (e) => {
+            e.preventDefault();
+            const page = link.getAttribute('data-page');
+            if (page && pages[page]) showPage(page);
+        });
+    });
+
+    const hash = window.location.hash.substring(1);
+    if (hash && pages[hash]) showPage(hash);
+    else showPage('index');
+</script>
+</body>
+</html>
