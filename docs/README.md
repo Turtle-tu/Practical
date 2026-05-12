@@ -3,4 +3,4 @@
 | Файл | Описание |
 |------|----------|
 | [practice_documentation.md](practice_documentation.md) | Цели, этапы и результаты практики |
-| [TECHNICAL_GUIDE.md](TECHNICAL_GUIDE.md) | Пошаговое руководство по созданию редактора |
+| [TECHNICAL_GUIDE.md](TECHNICAL_GUIDE.md) | Пошаговое руководство "Разработка системы автоматизации определения объёма груза по данным камер видеонаблюдения" |
