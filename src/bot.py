@@ -1,47 +1,66 @@
 import os
 import telebot
-from utils import get_daily_horoscope
+from dotenv import load_dotenv
 
-BOT_TOKEN = os.environ.get('BOT_TOKEN')
-bot = telebot.TeleBot(BOT_TOKEN)
-
-
-@bot.message_handler(commands=['start', 'horoscope'])
-def sign_handler(message):
-    text = (
-        "Напиши свой знак зодиака на русском языке.\n"
-        "Например: *Овен, Телец, Близнецы, Рак, Лев, Дева, Весы, Скорпион, Стрелец, Козерог, Водолей* или *Рыбы*."
-    )
-    sent_msg = bot.send_message(message.chat.id, text, parse_mode="Markdown")
-    bot.register_next_step_handler(sent_msg, day_handler)
+load_dotenv()
+bot = telebot.TeleBot(os.getenv('BOT_TOKEN'))
 
 
-def day_handler(message):
-    sign = message.text
-    text = (
-        "На какой день прогноз?\n"
-        "Напиши: *Сегодня*, *Завтра*, *Вчера* или дату в формате *ДД-ММ-ГГ* (например: 20-05-26)"
-    )
-    sent_msg = bot.send_message(message.chat.id, text, parse_mode="Markdown")
-    bot.register_next_step_handler(sent_msg, fetch_horoscope, sign)
+@bot.message_handler(commands=['start', 'members', 'description', 'goal', 'stack'])
+def handle_commands(message):
+    if message.text == '/start':
+        text = ("👋 *Привет! Я бот проекта.*\n\n"
+                "Выберите команду, чтобы узнать подробности:\n"
+                "/members — список участников\n"
+                "/description — актуальность проекта\n"
+                "/goal — проблематика (цели)\n"
+                "/stack — используемые технологии")
 
-
-def fetch_horoscope(message, sign):
-    day = message.text
-    horoscope = get_daily_horoscope(sign, day)
-    data = horoscope["data"]
-
-    if data['date'] == "ошибка":
-        bot.send_message(message.chat.id, data['horoscope_data'])
-    else:
-        horoscope_message = (
-            f"🔮 *Гороскоп: {sign.capitalize()}*\n"
-            f"📅 *Дата:* {data['date']}\n\n"
-            f"✨ {data['horoscope_data']}"
+    elif message.text == '/members':
+        text = (
+            "👥 *Список участников проекта:*\n\n"
+            "1. *Алиханов Богдан Тагирович* (241-333)\n2. *Алхедеров Омар* (241-337)\n"
+            "3. *Бондаренко Кирилл Андреевич* (241-131)\n4. *Бортникова Дарина Артуровна* (241-336)\n"
+            "5. *Гильдеева Виктория Сергеевна* (251-333)\n6. *Грехова Дарья Кирилловна* (251-334)\n"
+            "7. *Гылычджанова Боссан* (251-622)\n8. *Дубинкин Антон Владимирович* (251-339)\n"
+            "9. *Коваль Александр Евгеньевич* (251-331)\n10. *Леонтьев Александр Александрович* (251-331)\n"
+            "11. *Майкова Елизавета Анатольевна* (251-334)\n12. *Мокшин Кирилл Александрович* (241-132)\n"
+            "13. *Останин Платон Валерьевич* (251-336)\n14. *Островерхова Елена Олеговна* (251-621)\n"
+            "15. *Пинчук Ренат Сергеевич* (241-132)\n16. *Полковникова Арина Александровна* (251-621)\n"
+            "17. *Сулейманов Эмиль Шамилевич* (241-132)\n18. *Федоров Иван Сергеевич* (251-333)\n"
+            "19. *Хомидов Дилшоджон Шерзодович* (251-337)\n20. *Хоруженко Дмитрий Андреевич* (251-337)"
         )
-        bot.send_message(message.chat.id, horoscope_message, parse_mode="Markdown")
+
+    elif message.text == '/description':
+        text = (
+            "📝 *Актуальность проекта*\n\n"
+            "Использование нейронной сети для определения объёма в определенной зоне склада позволит:\n\n"
+            "• *Контроль соответствия объема груза перед погрузкой*: Приложение позволит точно определить объем партии груза непосредственно перед помещением в транспортное средство.\n\n"
+            "• *Оптимизация использования грузового пространства*: Автоматическое определение объема помогает рационально распределить груз в кузове.\n\n"
+            "• *Повышение скорости и точности погрузочных работ*: Использование системы исключает задержки и человеческие ошибки."
+        )
+
+    elif message.text == '/goal':
+        text = (
+            "🎯 *Цели проекта*\n\n"
+            "• *Низкая точность и субъективность*: Визуальная оценка подвержена значительным погрешностям и субъективному мнению.\n\n"
+            "• *Нерациональное использование транспорта*: Ошибки в объеме приводят к неполной загрузке или перегрузу.\n\n"
+            "• *Отсутствие объективного контроля*: Процесс не оставляет данных для аудита и разбора ошибок."
+        )
+
+    elif message.text == '/stack':
+        text = (
+            "🛠 *Стек используемых технологий:*\n\n"
+            "• *PyTorch*: фреймворк для глубокого обучения\n"
+            "• *Ultralytics YOLO*: основной фреймворк для компьютерного зрения\n"
+            "• *OpenCV*: обработка изображений и видео\n"
+            "• *YOLOv8*: модель детекции объектов\n"
+            "• *Roboflow*: разметка изображений и управление наборами данных (dataset)"
+        )
+
+    bot.send_message(message.chat.id, text, parse_mode="Markdown")
 
 
 if __name__ == "__main__":
-    print("Бот запущен...")
+    print("✅ Бот запущен с отдельной командой /stack...")
     bot.infinity_polling()
