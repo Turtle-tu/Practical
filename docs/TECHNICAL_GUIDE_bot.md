@@ -381,7 +381,8 @@ def handle_photo(message):
             filename
         )
 ```
-
+![Главное окно телеграм бота](../site/img/7.png)
+*Рис. 7. Загрузка фото.*
 ### Возможности
 
 * Получение фотографий через Telegram
@@ -399,8 +400,6 @@ def handle_photo(message):
 with open(filepath, 'wb') as new_file:
     new_file.write(downloaded_file)
 ```
-
-### Технические детали
 
 * Изображения сохраняются локально
 * Имя файла формируется автоматически
