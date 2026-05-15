@@ -514,6 +514,68 @@ Bot API -> Пользователь: Возврат изображения
 ```python
 @bot.message_handler(commands=['start'])
 def start(message):
+
+    markup = types.InlineKeyboardMarkup(row_width=2)
+
+    btn1 = types.InlineKeyboardButton(
+        "👥 Участники",
+        callback_data="members"
+    )
+
+    btn2 = types.InlineKeyboardButton(
+        "📝 Описание",
+        callback_data="description"
+    )
+
+    btn3 = types.InlineKeyboardButton(
+        "🎯 Цели",
+        callback_data="goal"
+    )
+
+    btn4 = types.InlineKeyboardButton(
+        "🛠 Технологии",
+        callback_data="stack"
+    )
+
+    btn5 = types.InlineKeyboardButton(
+        "📊 Статус",
+        callback_data="status"
+    )
+
+    btn6 = types.InlineKeyboardButton(
+        "📁 История",
+        callback_data="history"
+    )
+
+    btn7 = types.InlineKeyboardButton(
+        "📄 Отчёт CSV",
+        callback_data="report"
+    )
+
+    btn8 = types.InlineKeyboardButton(
+        "🔗 GitHub",
+        url="https://github.com/Evenmurmur/AIS"
+    )
+
+    markup.add(
+        btn1, btn2,
+        btn3, btn4,
+        btn5, btn6,
+        btn7, btn8
+    )
+
+    text = (
+        "👋 *Добро пожаловать в систему загрузки грузов!*\n\n"
+        "Выберите нужный раздел:"
+    )
+
+    bot.send_message(
+        message.chat.id,
+        text,
+        parse_mode="Markdown",
+        reply_markup=markup
+    )
+
 ```
 
 ### Технические детали
@@ -582,6 +644,72 @@ bot = telebot.TeleBot(os.getenv('BOT_TOKEN'))
 ```python
 @bot.message_handler(content_types=['photo'])
 def handle_photo(message):
+
+    try:
+
+        bot.send_message(
+            message.chat.id,
+            "📥 Фото получено."
+        )
+
+        photo = message.photo[-1]
+
+        file_info = bot.get_file(photo.file_id)
+
+        downloaded_file = bot.download_file(
+            file_info.file_path
+        )
+
+        filename = f"{datetime.now().timestamp()}.jpg"
+
+        filepath = os.path.join(
+            UPLOAD_DIR,
+            filename
+        )
+
+        with open(filepath, 'wb') as new_file:
+            new_file.write(downloaded_file)
+
+        if message.chat.id not in user_history:
+            user_history[message.chat.id] = []
+
+        user_history[message.chat.id].append(filepath)
+
+        with open(
+            "report.csv",
+            "a",
+            newline="",
+            encoding="utf-8"
+        ) as file:
+
+            writer = csv.writer(file)
+
+            writer.writerow([
+                datetime.now(),
+                message.chat.id
+            ])
+
+        with open(filepath, 'rb') as photo_file:
+
+            bot.send_photo(
+                message.chat.id,
+                photo_file,
+                caption="📸 Загруженное изображение"
+            )
+
+        logging.info(
+            f"User {message.chat.id} uploaded image {filename}"
+        )
+
+    except Exception as e:
+
+        logging.error(str(e))
+
+        bot.send_message(
+            message.chat.id,
+            f"❌ Ошибка обработки:\n{e}"
+        )
+
 ```
 
 ### Возможности
