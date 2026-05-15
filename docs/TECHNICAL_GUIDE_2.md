@@ -594,6 +594,86 @@ def handle_photo(message):
 
 ---
 
+## Модификация 5: Экспорт HTML-отчёта
+
+### Назначение
+
+Система позволяет автоматически формировать HTML-отчёт со списком загрузок пользователей.
+
+```python
+@bot.message_handler(commands=['export_html'])
+def export_html(message):
+
+    if not os.path.exists("report.csv"):
+
+        bot.send_message(
+            message.chat.id,
+            "❌ CSV файл отсутствует"
+        )
+
+        return
+
+    html_content = """
+    <html>
+    <head>
+        <meta charset='utf-8'>
+        <title>Отчёт</title>
+    </head>
+    <body>
+        <h1>Отчёт по загрузкам</h1>
+        <table border='1' cellpadding='5'>
+            <tr>
+                <th>Дата</th>
+                <th>User ID</th>
+            </tr>
+    """
+
+    with open(
+        "report.csv",
+        "r",
+        encoding="utf-8"
+    ) as file:
+
+        reader = csv.reader(file)
+
+        for row in reader:
+
+            html_content += f"""
+            <tr>
+                <td>{row[0]}</td>
+                <td>{row[1]}</td>
+            </tr>
+            """
+
+    html_content += """
+        </table>
+    </body>
+    </html>
+    """
+
+    with open(
+        "report.html",
+        "w",
+        encoding="utf-8"
+    ) as html_file:
+
+        html_file.write(html_content)
+
+    with open("report.html", "rb") as file:
+
+        bot.send_document(
+            message.chat.id,
+            file
+        )
+```
+
+## Возможности
+
+* Автоматическое создание HTML-файла
+* Табличное отображение данных
+* Экспорт истории загрузок
+* Отправка HTML-файла пользователю
+
 # 6. Дополнительные инструменты
 
 ## Добавление новых команд
